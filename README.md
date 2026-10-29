@@ -1,10 +1,10 @@
 # pstack-universal — any-agent skill
 
-> Universal, agent-agnostic reverse-engineering of `cursor/plugins` → `pstack` (`poteto-mode`). One file any agent can read and follow — no Cursor, no MCPs, no specific models required.
+> Universal, agent-agnostic reverse-engineering of `cursor/plugins` → `pstack` (`poteto-mode`) @ `c742dd6` (plugin v0.15.36). One file any agent can read and follow. No Cursor, no MCPs, no specific models required.
 
 **Fork source:** [`cursor/plugins` @ `main` → `pstack`](https://github.com/cursor/plugins/tree/main/pstack) → forked to [`immortaldarkveil/plugins`](https://github.com/immortaldarkveil/plugins)
 
-**What it is:** 157 files / 7800+ lines / 22 playbooks / 21 principles / ~40 leaf skills distilled into **one 557-line `SKILL.md` (53KB)** any LLM agent can load.
+**What it is:** 705 files under `pstack/` / 23 playbooks + the `figure-it-out` route / 24 principles / 34 leaf skills distilled into **one 1095-line `SKILL.md` (143KB)** any LLM agent can load. Includes the statechart corpus, the autopilot split, the ketchup family, and the formal-verification pair.
 
 Any agent that can read markdown, run shell commands (`git`, `gh`), and delegate subtasks can follow it: OpenCode, Cursor, Cline, Aider, Codex, Claude Code, etc.
 
@@ -85,13 +85,13 @@ See `SKILL.md` Section 2 and Section 12 for the full prompt recipes.
 
 ## What the skill enforces
 
-**Non-negotiables:** first todo is always `read Principles in full` → each principle citation must map to a decision. Code crossing a function boundary → `architect` + parallel design via `arena`. Parallel fan-out → `swarm`/`arena`. Contested design → `interrogate` before ship. Any prose → `unslop`. Any PR → `technical-writing` + `deslop` + `no-comments`. Long runs → `show-me-your-work` TSV trail.
+**Non-negotiables:** first todo is always `read Principles in full` → each principle citation must map to a decision. Code crossing a function boundary → `architect` + parallel design via `arena`. Parallel fan-out → `swarm`/`arena`. Contested design → `interrogate` before ship. Any prose → `unslop`. Any PR → `technical-writing` + `unslop` + `no-comments`. Long runs → `show-me-your-work` TSV trail. Stateful rules → `statechart`. Perf claims → `benchmark-checklist`.
 
-**21 principles distilled:** Laziness Protocol, Foundational Thinking, Redesign from First Principles, Subtract Before You Add, Minimize Reader Load, Outcome-Oriented, Experience First, Exhaust Design Space, Build the Lever, Model the Domain, Boundary Discipline, Type System Discipline, Make Operations Idempotent, Migrate Callers Then Delete, Separate Before Serializing, Prove It Works, Fix Root Causes, Sequence Verifiable Units, Guard Context Window, Never Block on the Human, Encode Lessons in Structure — each with `when → rule → test`.
+**24 principles distilled:** Laziness Protocol, Foundational Thinking, Redesign from First Principles, Attack the Premise, Subtract Before You Add, Experience First, Model the Domain, Boundary Discipline, Type System Discipline, Make Operations Idempotent, Migrate Callers Then Delete, Separate Before Serializing, Minimize Reader Load, Outcome-Oriented Execution, Exhaust the Design Space, Prove It Works, Fix Root Causes, Sequence Verifiable Units, Test Behavior Not Implementation, Explain the Number, Build the Lever, Guard Context Window, Never Block on the Human, Encode Lessons in Structure — each with `when → rule → test`.
 
-**Playbooks distilled (copy verbatim into todos):** Investigation, Bug fix, Feature, Refactoring, Prototype, Perf issue, Hillclimb, Runtime/Trace Forensics, Visual parity, Eval, Multi-phase plan, Autonomous run, Orchestrate, Babysit, Shipping, Opening a PR, Session pickup/Pause, Worktree cleanup.
+**Playbooks distilled (copy verbatim into todos):** Investigation, Bug fix, Feature, Refactoring, Prototype, Perf issue, Hillclimb, Runtime/Trace Forensics, Visual parity, Eval, Multi-phase plan, Autonomous run, Autopilot-full, Autopilot-stack, Orchestrate, Babysit, Shipping, Opening a PR, Session pickup, Pause safely, Worktree cleanup, Authoring a skill.
 
-**Leaf skills distilled:** `how` (explorer→explainer), `why` (7-evidence parallel), `teach`/`recall`/`architect`/`arena` (base+graft+judge)/`swarm`/`interrogate`/`tdd`/`blast-radius`/`unslop`/`no-comments`/`figure-it-out`/`show-me-your-work`/`create-verification-skill`.
+**Leaf skills distilled (34):** `how` (explorer→explainer), `why` (7-evidence parallel), `teach`, `recall`, `ketchup`, `architect`, `arena` (base+graft+judge), `swarm`, `interrogate`, `tdd`, `blast-radius`, `unslop`, `no-comments`, `correct`, `figure-it-out`, `show-me-your-work`, `benchmark-checklist`, `statechart`, `create-verification-skill`, `maintain-verification-skill`, `create-formal-verification-skill`, `maintain-formal-verification-skill`, `reflect`, `sharpen`, `in-your-own-words`, `poteto-help`, `ketchup-video`, `make-bot-ui`.
 
 **Verification contract:** `prove-it-works` on the real artifact (not "it compiles") + `sequence-verifiable-units` (red failing artifact before green fix, verify each unit before next).
 
@@ -105,13 +105,14 @@ Source mapped at clone time:
 
 ```
 # original playbooks
-pstack/skills/poteto-mode/playbooks/*.md  # 22 playbooks
-pstack/skills/principle-*/SKILL.md        # 21 principles
-pstack/skills/*/SKILL.md                  # ~40 leaf skills
+pstack/skills/poteto-mode/playbooks/*.md  # 23 playbooks
+pstack/skills/principle-*/SKILL.md        # 24 principles
+pstack/skills/*/SKILL.md                  # 34 leaf skills
+pstack/skills/statechart/**               # 450-file statechart corpus
 pstack/docs/guide/*.md                    # 10 guide pages
 ```
 
-This repo's `SKILL.md` was checked to cover all 21 principles and 13 playbook families + 13 leaf skills (`default.bash` grep checks in build log).
+This repo's `SKILL.md` was checked to cover all 24 principles, all 23 playbooks plus the `figure-it-out` route, and all 34 leaf skills (grep checks on the assembled file).
 
 Original license: MIT © 2026 Lauren Tan (see `LICENSE`).
 
@@ -123,7 +124,7 @@ No Cursor needed. Drop-in replacements in `SKILL.md` Section 14:
 
 | Original | Any-agent |
 |---|---|
-| `poteto-agent` / model slugs (`grok-4.6-fast-xhigh`, `claude-fable-5-thinking-max`) | pick `fast code` vs `strong reasoning` vs `different family` for judge, or inherit parent |
+| `poteto-agent` / model slugs (`grok-4.7-xhigh-fast`, `claude-opus-5-5-xhigh`) | pick `fast code` vs `strong reasoning` vs `different family` for judge, or inherit parent |
 | MCPs (Linear/Notion/Slack/Datadog/Sentry/Databricks) | use whatever you have: `git`/`gh` + tracker + docs + chat + observability + error tracking + analytics; report null results |
 | `control-ui`/`control-cli`/`gt`/`/loop` | browser CDP / PTY / `curl` + branches + `gh` + your heartbeat predicate |
 | `agent-transcripts/` | your transcript/log dir or `decisions.tsv` |
